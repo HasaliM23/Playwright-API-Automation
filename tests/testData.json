@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Data Driven Post 1",
+    "body": "This is the first post from JSON file",
+    "userId": 21
+  },
+  {
+    "title": "Data Driven Post 2",
+    "body": "This is the second post from JSON file",
+    "userId": 22
+  },
+  {
+    "title": "Data Driven Post 3",
+    "body": "This is the third post from JSON file",
+    "userId": 23
+  }
+]

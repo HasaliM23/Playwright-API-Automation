@@ -16,7 +16,7 @@ jobs:
     - name: Install dependencies
       run: npm ci
     - name: Run Playwright API tests
-      run: npx playwright test tests/api-test.spec.js --project=chromium  # 👈 මෙන්න මේ ලයින් එක විතරයි වෙනස් කළේ
+      run: npx playwright test tests/ --project=chromium  # 👈 මෙන්න මේ ලයින් එක විතරයි වෙනස් කළේ!
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
