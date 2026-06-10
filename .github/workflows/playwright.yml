@@ -4,6 +4,12 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+
+permissions: # 👈 GitHub එකට වෙබ් අඩවියක් පබ්ලිෂ් කරන්න පර්මිෂන් දෙනවා
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   test:
     timeout-minutes: 10
@@ -13,13 +19,28 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
+    
     - name: Install dependencies
       run: npm ci
+    
     - name: Run Playwright API tests
-      run: npx playwright test tests/ --project=chromium  # 👈 මෙන්න මේ ලයින් එක විතරයි වෙනස් කළේ!
-    - uses: actions/upload-artifact@v4
+      run: npx playwright test tests/ --project=chromium
+    
+    - name: Upload Report to GitHub Pages # 👈 රිපෝට් එක වෙබ් අඩවියක් කරන්න ලෑස්ති කරනවා
+      uses: actions/upload-pages-artifact@v3
       if: ${{ !cancelled() }}
       with:
-        name: playwright-report
         path: playwright-report/
         retention-days: 30
+
+  deploy: # 👈 රිපෝට් එක ලයිව් ලින්ක් එකක් විදිහට පබ්ලිෂ් කරන අලුත් පියවර
+    needs: test
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
